@@ -1,0 +1,10 @@
+1) Les fichiers side de chaque dossier contiennent les sides bar personnalisés pour chaque acteur
+2) La nav est identique partout alors on a décidé de l'isoler dans le fichier nav qui est à la racine de views pour pouvoir l'inclure facilement
+    dans d'autres fichiers
+3) Les fichiers border contiennent la nav et la side de chaque acteur, on pourra peut-être y ajouter un yield pour pouvoir faire des extends avec
+4) Le fichier de base intégré est nommé base.blade.php à la racine de views, il n'est pas à modifier, il peut servir d'aide lors de la modification
+    des autres fichiers, pour mieux se retrouver
+5) Le dossier pages est le dossier dans lequel on aura toutes les vues du dashboard
+6) Le fichier layout du dossier pages contient la nav et la side qui étaient là par défaut
+6) Le fichier link du dossier pages contient juste les liens
+7) Pour le email, on a créé un dossier Services contenant EmailServices, les modifications sont dans app.php
