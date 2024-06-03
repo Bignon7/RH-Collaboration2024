@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -10,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -28,20 +30,65 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisterRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+
+
+        $compPath = Str::uuid() . '_' . $request->file('comp_file')->getClientOriginalName();
+        $photoPath = Str::uuid() . '_' . $request->file('photo_file')->getClientOriginalName();
+        $photo = $request->file('photo_file')->storeAs('photo_files', $photoPath, 'public');
+        $comp = $request->file('comp_file')->storeAs('comp_files', $compPath, 'public');
+
+        $request = $request->validated();
+        // $user = User::create([
+        //     'matricule' => $request->matricule,
+        //     'nom' => $request->nom,
+        //     'prenom' => $request->prenom,
+        //     'email' => $request->email,
+        //     'hire_date' => $request->hire_date,
+        //     'poste' => $request->poste,
+        //     'service' => $request->service,
+        //     'phone' => $request->phone,
+        //     'adresse' => $request->adresse,
+        //     'role' => $request->role,
+        //     'comp_file' => $comp,
+        //     'photo_file' => $photo,
+        //     'password' => Hash::make($request->password),
+        // ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'matricule' => $request['matricule'],
+            'nom' => $request['nom'],
+            'prenom' => $request['prenom'],
+            'email' => $request['email'],
+            'hire_date' => $request['hire_date'],
+            'poste' => $request['poste'],
+            'service' => $request['service'],
+            'phone' => $request['phone'],
+            'adresse' => $request['adresse'],
+            'role' => $request['role'],
+            'comp_file' => $comp,
+            'photo_file' => $photo,
+            'password' => Hash::make($request['password']),
         ]);
 
+        // $user = User::create([
+        //     'matricule' => 000001,
+        //     'nom' => 'ADMIN',
+        //     'prenom' => "Administrateur",
+        //     'email' => 'admin@gmail.com',
+        //     'hire_date' => '13/06/2011',
+        //     'poste' => 'Directeur',
+        //     'service' => 'Informatique',
+        //     'phone' => '+229 40 40 40 40',
+        //     'adresse' => '02BP Séoul Corée du Sud',
+        //     'role' => 'Admin',
+        //     'comp_file' => $comp,
+        //     'photo_file' => $photo,
+        //     'password' => Hash::make('Administrator1!'),
+        // ]);
+
+        //Ne pas oublier cette partie
         event(new Registered($user));
 
         Auth::login($user);

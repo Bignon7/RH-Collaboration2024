@@ -8,3 +8,16 @@
 6) Le fichier layout du dossier pages contient la nav et la side qui étaient là par défaut
 6) Le fichier link du dossier pages contient juste les liens
 7) Pour le email, on a créé un dossier Services contenant EmailServices, les modifications sont dans app.php
+
+
+8) On a décidé de créer des request personnalisés pour quelques modèles afin de séparer la validation des données de l'enregistrement
+9) Le dossier public du dossier storage a été lié au dossier public ce qui a entraîné la création d'un dossier storage dans public.
+    C'est pour pouvoir afficher plus tard les photos uploadées par exemple.
+    (The [C:\laragon\www\StaffNest\public\storage] link has been connected to [C:\laragon\www\StaffNest\storage\app/public]. )
+
+10)On a créer des requests pour Demandeconge -- Formation -- Service (et pour Register aussi)
+11) Avant de faire le php artisan migrate, il faut d'abord faire le php artisan migrate --path=database\migrations\2024_06_01_130335_create_formations_table.php
+    pour créer la table formation var inscription hérite de ses clés
+
+
+

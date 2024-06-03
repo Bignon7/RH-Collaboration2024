@@ -57,4 +57,17 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function get_dash()
+    {
+        if (Auth::user()->role == 'Employé') {
+            return view('pages.employe.border');
+        } elseif (Auth::user()->role == 'Gestionnaire') {
+            return view('pages.manager.border');
+        } elseif (Auth::user()->role == 'Admin') {
+            return view('pages.admin.border');
+        } else {
+            return view('dashboard');
+        }
+    }
 }

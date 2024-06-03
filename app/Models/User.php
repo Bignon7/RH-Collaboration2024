@@ -4,6 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -18,8 +21,18 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'matricule',
+        'nom',
+        'prenom',
         'email',
+        'hire_date',
+        'poste',
+        'service',
+        'phone',
+        'adresse',
+        'role',
+        'comp_file',
+        'photo_file',
         'password',
     ];
 
@@ -41,4 +54,35 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function formations()
+    {
+        return $this->belongsToMany(Formation::class, 'inscriptions', 'user_id', 'formation_id')
+            ->withPivot('date_inscription')
+            ->withTimestamps();
+    }
+    public function inscriptions()
+    {
+        return $this->hasMany(Inscription::class);
+    }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function fichepaies(): HasMany
+    {
+        return $this->hasMany(Fichepaie::class);
+    }
+
+    public function demandeconges(): HasMany
+    {
+        return $this->hasMany(Demandeconge::class);
+    }
+
+
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

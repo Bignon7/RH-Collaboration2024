@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
         @csrf
 
         <!-- Matricule -->
@@ -14,7 +14,7 @@
         <div class="mt-4">
             <x-input-label for="nom" :value="__('Nom')" />
             <x-text-input id="nom" class="block mt-1 w-full" type="text" name="nom" :value="old('nom')"
-                required autofocus autocomplete="nom" placeholder="Le nom..." />
+                required autocomplete="nom" placeholder="Le nom..." />
             <x-input-error :messages="$errors->get('nom')" class="mt-2" />
         </div>
 
@@ -22,7 +22,7 @@
         <div class="mt-4">
             <x-input-label for="prenom" :value="__('Prénom')" />
             <x-text-input id="prenom" class="block mt-1 w-full" type="text" name="prenom" :value="old('prenom')"
-                required autofocus autocomplete="prenom" placeholder="Le prénom..." />
+                required autocomplete="prenom" placeholder="Le prénom..." />
             <x-input-error :messages="$errors->get('prenom')" class="mt-2" />
         </div>
 
@@ -39,36 +39,63 @@
         <!-- Ajout -->
         <!-- Date -->
         <div class="mt-4">
-            <x-input-label for="prenom" :value="__('Date d\'embauche')" />
-            <x-text-input id="hire_date" class="block mt-1 w-full" type="date" name="hire_date" :value="old('hire_date')"
-                required autofocus autocomplete="hire_date" placeholder="30/12/1995" />
-            <x-input-error :messages="$errors->get('prenom')" class="mt-2" />
+            <x-input-label for="hire_date" :value="__('Date d\'embauche')" />
+            <x-text-input id="hire_date" max="<?php echo date('Y-m-d'); ?>" class="block mt-1 w-full" type="date"
+                name="hire_date" :value="old('hire_date')" required autocomplete="hire_date" placeholder="30/12/1995" />
+            <x-input-error :messages="$errors->get('hire_date')" class="mt-2" />
         </div>
         <!-- Poste -->
         <div class="mt-4">
             <x-input-label for="poste" :value="__('Poste')" />
 
-            <select name="example" id="example"
+            <select name="poste" id="poste"
                 class="block w-full mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                <option value="" disabled selected>Sélectionnez un poste</option>
-                <option value="Chercheur">Agent</option>
-                <option value="Chercheur">Chef service informatique</option>
-                <option value="Chercheur">Chercheur</option>
-                <option value="Chercheur">Comptable</option>
-                <option value="Chercheur">Directeur de projet</option>
-                <option value="Platon">Platon</option>
-                <option value="Sécrétaire">Sécrétaire</option>
+                <option value="" disabled {{ old('poste') == '' ? 'selected' : '' }}>Sélectionnez un poste
+                </option>
+                <option {{ old('poste') == 'Agent' ? 'selected' : '' }} value="Agent">Agent</option>
+                <option {{ old('poste') == 'Chef service' ? 'selected' : '' }} value="Chef service">Chef service
+                </option>
+                <option {{ old('poste') == 'Chercheur' ? 'selected' : '' }} value="Chercheur">Chercheur</option>
+                <option {{ old('poste') == 'Comptable' ? 'selected' : '' }} value="Comptable">Comptable</option>
+                <option {{ old('poste') == 'Directeur de projet' ? 'selected' : '' }} value="Directeur de projet">
+                    Directeur de projet
+                </option>
+                <option {{ old('poste') == 'Platon' ? 'selected' : '' }} value="Platon">Platon</option>
+                <option {{ old('poste') == 'Sécrétaire' ? 'selected' : '' }} value="Sécrétaire">Sécrétaire</option>
             </select>
             <x-input-error :messages="$errors->get('poste')" class="mt-2" />
         </div>
 
+        <!-- Service -->
+        <div class="mt-4">
+            <x-input-label for="service" :value="__('Service')" />
+
+            <select name="service" id="service"
+                class="block w-full mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <option value="" disabled {{ old('service') == '' ? 'selected' : '' }}>Sélectionnez un service
+                </option>
+                <option {{ old('service') == 'Art' ? 'selected' : '' }} value="Art">Art</option>
+                <option {{ old('service') == 'Bureautique' ? 'selected' : '' }} value="Bureautique">Bureautique
+                </option>
+                <option {{ old('service') == 'Comptabilité' ? 'selected' : '' }} value="Comptabilité">Comptabilité
+                </option>
+                <option {{ old('service') == 'Electricité' ? 'selected' : '' }} value="Electricité">Electricité
+                </option>
+                <option {{ old('service') == 'Entretien' ? 'selected' : '' }} value="Entretien">Entretien</option>
+                <option {{ old('service') == 'Informatique' ? 'selected' : '' }} value="Informatique">Informatique
+                </option>
+                <option {{ old('service') == 'Planification' ? 'selected' : '' }} value="Planification">Planification
+                </option>
+            </select>
+            <x-input-error :messages="$errors->get('service')" class="mt-2" />
+        </div>
 
 
         <!-- Numéro -->
         <div class="mt-4">
             <x-input-label for="phone" :value="__('Téléphone')" />
             <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')"
-                required autofocus autocomplete="phone" placeholder="Le numéro téléphone..." />
+                required autocomplete="phone" placeholder="Le numéro téléphone..." />
             <x-input-error :messages="$errors->get('phone')" class="mt-2" />
         </div>
         {{-- border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm --}}
@@ -76,10 +103,25 @@
         <div class="mt-4">
             <x-input-label for="adresse" :value="__('Adresse')" />
             <x-text-input id="adresse" class="block mt-1 w-full" type="text" name="adresse" :value="old('adresse')"
-                required autofocus autocomplete="adresse" placeholder="L'adresse..." />
+                required autocomplete="adresse" placeholder="L'adresse..." />
             <x-input-error :messages="$errors->get('adresse')" class="mt-2" />
         </div>
 
+        {{-- <!-- Role --> A commenter si nécessaire --}}
+        @if (Auth::user())
+            @if (Auth::user()->role == 'Admin')
+                <div class="mt-4">
+                    <label for="role"></label>
+                    <input type="hidden" id="role" name="role" value="Gestionnaire">
+                </div>
+            @endif
+            @if (Auth::user()->role == 'Gestionnaire')
+                <div class="mt-4">
+                    <label for="role"></label>
+                    <input type="hidden" id="role" name="role" value="Employé">
+                </div>
+            @endif
+        @endif
         <!-- Compétences -->
         <div class="max-w-md mx-auto mt-4">
             <label class="block text-sm font-medium text-gray-700">Importer le CV</label>
@@ -91,6 +133,7 @@
                         onchange="document.getElementById('comp-file-name').textContent = this.files[0].name">
                 </label>
             </div>
+            <x-input-error :messages="$errors->get('comp_file')" class="mt-2" />
         </div>
 
         <!-- Photo -->
@@ -104,6 +147,7 @@
                         onchange="document.getElementById('photo-file-name').textContent = this.files[0].name">
                 </label>
             </div>
+            <x-input-error :messages="$errors->get('photo_file')" class="mt-2" />
         </div>
         <!-- /Ajout -->
 
@@ -130,11 +174,11 @@
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-indigo-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+                {{ __('Retourner sur le tableau de bord') }}
             </a>
 
             <x-primary-button class="ms-4">
-                {{ __('Register') }}
+                {{ __('Créer') }}
             </x-primary-button>
         </div>
     </form>
