@@ -14,6 +14,7 @@ class Formation extends Model
         'description_formation',
         'date_debut_formation',
         'duree_formation',
+        'date_fin_formation',
         'lieu_formation',
     ];
 

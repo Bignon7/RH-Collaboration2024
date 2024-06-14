@@ -8,11 +8,12 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Admin | Dashboard</title>
+    {{-- <title>{{ config('app.name') }} - @yield('title')</title> --}}
 
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="storage/img/logo_nbg.ico" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,6 +23,7 @@
         rel="stylesheet" />
 
     <!-- Icons. Uncomment required icon fonts -->
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> --}}
     <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
 
     <!-- Core CSS -->
@@ -33,8 +35,15 @@
     <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
     <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- Page CSS -->
+
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Helpers -->
     <script src="assets/vendor/js/helpers.js"></script>
@@ -45,10 +54,31 @@
 </head>
 
 <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+            @if (Auth::user()->role == 'Admin')
+                @include('pages.admin.side')
+            @elseif (Auth::user()->role == 'Gestionnaire')
+                @include('pages.manager.side')
+            @elseif (Auth::user()->role == 'Employé')
+                @include('pages.employe.side')
+            @endif
+            <!-- / Menu -->
+            <!-- Layout container -->
+            <div class="layout-page">
+                <!-- Navbar -->
+                @include('nav')
+                <!-- / Navbar -->
 
-    {{-- @yield('content') --}}
 
+                @yield('content')
 
+            </div>
+
+        </div>
+    </div>
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="assets/vendor/libs/jquery/jquery.js"></script>

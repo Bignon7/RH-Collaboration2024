@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('demandeconges', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('type_conge');
             $table->string('date_debut_conge');
             $table->string('duree_conge');
+            $table->string('date_retour_conge');
             $table->text('motif_conge');
             $table->enum('statut_conge', ['Approuvée', 'Rejetée'])->nullable();
             $table->timestamps();

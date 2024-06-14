@@ -1,5 +1,23 @@
+@php
+    function generateComplexPassword($length = 12)
+    {
+        // $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?';
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*-_=+|:.<>?';
+        $charactersLength = strlen($characters);
+        $randomPassword = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomPassword .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        return $randomPassword;
+    }
+
+    $pass_value = generateComplexPassword(12);
+    // Ajouter ceci dans les inputs    value="{{ $pass_value }}" disabled hidden plutôt
+@endphp
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+    {{-- <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data"> --}}
+    <form method="POST" action="{{ route('register.new.store') }}" enctype="multipart/form-data">
         @csrf
 
         <!-- Matricule -->
@@ -130,7 +148,7 @@
                     class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 cursor-pointer">
                     <span id="comp-file-name" class="text-gray-500">Sélectionner un fichier</span>
                     <input id="comp_file" name="comp_file" type="file" class="file-input" style="display:none"
-                        onchange="document.getElementById('comp-file-name').textContent = this.files[0].name">
+                        onchange="document.getElementById('comp-file-name').textContent = this.files[0].name.slice(0,15)+'...';">
                 </label>
             </div>
             <x-input-error :messages="$errors->get('comp_file')" class="mt-2" />
@@ -144,7 +162,7 @@
                     class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 cursor-pointer">
                     <span id="photo-file-name" class="text-gray-500">Sélectionner un fichier</span>
                     <input id="photo_file" name="photo_file" type="file" class="file-input" style="display:none"
-                        onchange="document.getElementById('photo-file-name').textContent = this.files[0].name">
+                        onchange="document.getElementById('photo-file-name').textContent = this.files[0].name.slice(0,15)+'...';">
                 </label>
             </div>
             <x-input-error :messages="$errors->get('photo_file')" class="mt-2" />
@@ -153,27 +171,27 @@
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Mot de passe')" />
+            <x-input-label for="password" :value="__('')" />
 
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                autocomplete="new-password" />
+            <x-text-input id="password" class="block mt-1 w-full" type="hidden" name="password" required
+                autocomplete="new-password" value="{{ $pass_value }}" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirmation')" />
+            <x-input-label for="password_confirmation" :value="__('')" />
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                name="password_confirmation" required autocomplete="new-password" />
+            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="hidden"
+                name="password_confirmation" required autocomplete="new-password" value="{{ $pass_value }}" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-indigo-400 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                href="{{ route('login') }}">
+                href="{{ route('get_dash') }}">
                 {{ __('Retourner sur le tableau de bord') }}
             </a>
 
