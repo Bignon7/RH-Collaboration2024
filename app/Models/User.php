@@ -34,6 +34,9 @@ class User extends Authenticatable
         'comp_file',
         'photo_file',
         'password',
+        'salaire',
+        'duree_contrat',
+        'contrat',
     ];
 
     /**

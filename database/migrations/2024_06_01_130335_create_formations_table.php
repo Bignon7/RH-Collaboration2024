@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description_formation');
             $table->string('date_debut_formation');
             $table->string('duree_formation');
+            $table->string('date_fin_formation');
             $table->string('lieu_formation');
             $table->timestamps();
         });

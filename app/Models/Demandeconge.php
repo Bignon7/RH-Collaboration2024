@@ -11,9 +11,11 @@ class Demandeconge extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'type_conge',
         'date_debut_conge',
         'duree_conge',
+        'date_retour_conge',
         'motif_conge',
         'statut_conge',
     ];

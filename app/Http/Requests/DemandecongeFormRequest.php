@@ -25,6 +25,7 @@ class DemandecongeFormRequest extends FormRequest
             'type_conge' => ['required', 'string', 'max:255'],
             'date_debut_conge' => ['required', 'string', 'max:255'],
             'duree_conge' => ['required', 'string'],
+            'date_retour_conge' => ['required', 'string', 'max:255'],
             'motif_conge' => ['required'],
             'statut_conge' => ['nullable', 'string', 'in:approuvée,rejetée'],
         ];
