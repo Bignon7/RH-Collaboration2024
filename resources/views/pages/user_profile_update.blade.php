@@ -30,7 +30,7 @@
     <section class="container mx-auto px-10 py-8">
         <!-- Conteneur principal -->
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <form method="POST" action="{{ route('update_created_user') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('update_created_user', $user->id) }}" enctype="multipart/form-data">
                 @csrf
                 <!-- En-tête de profil -->
                 <header class="bg-gray-200 px-6 py-4">
@@ -94,8 +94,7 @@
                                 <div>
                                     <x-input-label for="matricule" :value="__('Matricule')" />
                                     <x-text-input id="matricule" class=" w-full" type="text" name="matricule"
-                                        :value="old('matricule', $user->matricule)" required autocomplete="matricule"
-                                        placeholder="Le matricule..." />
+                                        :value="old('matricule', $user->matricule)" required autocomplete="matricule" placeholder="13062013" />
                                     <x-input-error :messages="$errors->get('matricule')" class="mt-2" />
                                 </div>
 
@@ -103,7 +102,7 @@
                                 <div>
                                     <x-input-label for="nom" :value="__('Nom')" />
                                     <x-text-input id="nom" class=" w-full" type="text" name="nom"
-                                        :value="old('nom', $user->nom)" required autocomplete="nom" placeholder="Le nom..." />
+                                        :value="old('nom', $user->nom)" required autocomplete="nom" placeholder="QUENUM" />
                                     <x-input-error :messages="$errors->get('nom')" class="mt-2" />
                                 </div>
 
@@ -111,7 +110,7 @@
                                 <div>
                                     <x-input-label for="prenom" :value="__('Prénom')" />
                                     <x-text-input id="prenom" class="w-full" type="text" name="prenom"
-                                        :value="old('prenom', $user->prenom)" required autocomplete="prenom" placeholder="Le prénom..." />
+                                        :value="old('prenom', $user->prenom)" required autocomplete="prenom" placeholder="Everest" />
                                     <x-input-error :messages="$errors->get('prenom')" class="mt-2" />
                                 </div>
 
@@ -141,7 +140,7 @@
                                 </div>
                             </div>
 
-                            @if (Auth::user()->id == $user->id)
+                            @if (Auth::user()->id == $user->id && Auth::user()->role != 'Admin')
                                 <div class="flex items-center justify-end mt-12">
                                     <button
                                         class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest text-gray-500 border border-gray-500 transition scale-110 duration-300 hover:bg-gray-500 hover:text-white"><a
@@ -152,15 +151,19 @@
 
                                 </div>
                             @endif
-
-
                         </div>
                     </div>
-                    @if (Auth::user()->role == 'Gestionnaire' && Auth::user()->id != $user->id)
-                        <input type="hidden" name="hire_date" value="old('hire_date', $user->hire_date)">
-                        <input type="hidden" name="poste" value="old('poste', $user->poste)">
-                        <input type="hidden" name="service" value="old('service', $user->service)">
-                        <input type="hidden" name="comp_file" value="old('service', $user->service)">
+                    <input type="hidden" name="hire_date" value="{{ old('hire_date', $user->hire_date) }}">
+                    <input type="hidden" name="poste" value="{{ old('poste', $user->poste) }}">
+                    <input type="hidden" name="service" value="{{ old('service', $user->service) }}">
+                    <input type="hidden" name="salaire" value="{{ old('salaire', $user->salaire) }}">
+                    <input type="hidden" name="duree_contrat"
+                        value="{{ old('duree_contrat', $user->duree_contrat) }}">
+                    <input type="hidden" name="photo_file" value="{{ old('photo_file', $user->photo_file) }}">
+                    <input type="hidden" name="comp_file" value="{{ old('comp_file', $user->comp_file) }}">
+                    <input type="hidden" name="lien_contrat"
+                        value="{{ old('lien_contrat', $user->lien_contrat) }}">
+                    @if ((Auth::user()->role == 'Gestionnaire' && Auth::user()->id != $user->id) || Auth::user()->role == 'Admin')
                         <!-- Informations administratives -->
                         <div>
                             <h3 class="text-lg font-semibold text-gray-600 mb-2 border-b border-gray-200 pb-2">

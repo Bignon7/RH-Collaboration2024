@@ -50,6 +50,7 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="assets/js/config.js"></script>
+
 </head>
 
 <body>
@@ -64,6 +65,36 @@
                 <!-- Navbar -->
                 @include('nav')
                 <!-- / Navbar -->
+
+
+                <!-- Message de session -->
+                @if (session('success') || session('error') || session('status'))
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        @if (session('success'))
+                            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4"
+                                role="alert">
+                                <p class="font-bold">Succès</p>
+                                <p>{{ session('success') }}</p>
+                            </div>
+                        @endif
+
+                        @if (session('error'))
+                            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+                                <p class="font-bold">Erreur</p>
+                                <p>{{ session('error') }}</p>
+                            </div>
+                        @endif
+
+                        @if (session('status'))
+                            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
+                                <p class="font-bold">Statut</p>
+                                <p>{{ session('status') }}</p>
+                            </div>
+                        @endif
+                    </div>
+                @endif
+                <!-- / Message de session -->
+
 
                 <!--  Badge -->
                 <div class="container-xxl flex-grow-1 container-p-y">
@@ -105,7 +136,7 @@
                         <div class="card-header text-center mb-5"
                             style="background-color: #696cff;
                         color: white;">
-                            <h2 class="text-white text-base">Mon profile</h2>
+                            <h2 class="text-white text-base">Mon profil</h2>
                         </div>
                         <div class="card-body text-center">
                             <div class="profile-img-container mb-3"
@@ -137,7 +168,9 @@
                             <h4>Informations Administratives</h4>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p><strong>Date d'embauche:</strong> {{ Auth::user()->hire_date }}</p>
+                                    <p><strong>Date d'embauche:</strong>
+                                        {{ Auth::user()->hire_date }}
+                                    </p>
                                     <p><strong>Poste:</strong> {{ Auth::user()->poste }}</p>
                                     <p><strong>Service:</strong> {{ Auth::user()->service }}</p>
                                     @if (Auth::user()->comp_file)
@@ -146,10 +179,10 @@
                                                 class="text-indigo-500">Télécharger</a></p>
                                     @endif
                                     @if (Auth::user()->salaire)
-                                        <p><strong>Salaire:</strong> {{ Auth::user()->salaire }}an</p>
+                                        <p><strong>Salaire:</strong> {{ Auth::user()->salaire }}/an</p>
                                     @endif
-                                    @if (Auth::user()->contrat)
-                                        <p><strong>Contrat:</strong> <a href="storage/{{ Auth::user()->contrat }}"
+                                    @if (Auth::user()->lien_contrat)
+                                        <p><strong>Contrat:</strong> <a href="storage/{{ Auth::user()->lien_contrat }}"
                                                 class="text-indigo-500">Voir le
                                                 contrat</a></p>
                                     @endif
@@ -167,7 +200,7 @@
                             <button
                                 class="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 ml-auto block"><a
                                     class="hover:text-white"
-                                    href="{{ route('edit_created_user', Auth::user()) }}">Modifier son
+                                    href="{{ route('edit_created_user', Auth::user()) }}">Modifier mon
                                     profil
                                 </a></button>
                         </div>

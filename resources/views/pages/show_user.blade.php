@@ -31,18 +31,21 @@
             <div class="p-6">
                 <h4 class="text-lg font-semibold mb-4">Informations Administratives</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <p><strong>Date d'embauche:</strong> {{ $user->hire_date }}</p>
+                    <p><strong>Date d'embauche:</strong>
+                        {{ (new IntlDateFormatter('fr_FR', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE))->format(new DateTime($user->hire_date)) }}
+                    </p>
                     <p><strong>Poste:</strong> {{ $user->poste }}</p>
                     <p><strong>Service:</strong> {{ $user->service }}</p>
                     @if ($user->comp_file)
                         <p><strong>Fichier de compétences:</strong> <a href="storage/{{ $user->comp_file }}"
-                                class="text-indigo-500">Télécharger</a></p>
+                                class="text-indigo-500">Voir le CV</a></p>
                     @endif
                     @if ($user->salaire)
-                        <p><strong>Salaire:</strong> {{ $user->salaire }}€/an</p>
+                        <p><strong>Salaire:</strong> {{ $user->salaire }}/an</p>
                     @endif
-                    @if ($user->contrat)
-                        <p><strong>Contrat:</strong> <a href="storage/{{ $user->contrat }}" class="text-indigo-500">Voir le
+                    @if ($user->lien_contrat)
+                        <p><strong>Contrat:</strong> <a href="storage/{{ $user->lien_contrat }}"
+                                class="text-indigo-500">Voir le
                                 contrat</a></p>
                     @endif
                     @if ($user->duree_contrat)

@@ -9,8 +9,7 @@
                 <span style="text-transform:capitalize;"
                     class="app-brand-text demo menu-text fw-bolder">StaffNest</span>
             </span>
-            <span style="text-transform:capitalize; "
-                class="app-brand-text demo menu-text fw-bolder ms-2">StaffNest</span>
+
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -75,15 +74,17 @@
 
         <!-- Layouts -->
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link ">
+            <a href="{{ route('fiches.mes') }}" class="menu-link ">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Layouts">Fiches de paie</div>
+                <div data-i18n="Layouts">Mes fiches de paie</div>
             </a>
         </li>
 
 
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link ">
+            <a href="{{ isset(Auth::user()->lien_contrat) ? route('show_pdf_view', Auth::user()->lien_contrat) : 'javascript:void(0);' }}"
+                class="menu-link"
+                onclick="if('{{ Auth::user()->lien_contrat }}' === '') { alert('Votre contrat n\'est pas encore prêt.'); return false; }">
                 <i class="menu-icon tf-icons bx bx-book-content"></i>
                 <div data-i18n="Account Settings">Contrat de travail</div>
             </a>

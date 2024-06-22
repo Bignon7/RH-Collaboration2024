@@ -16,14 +16,21 @@
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
         <div class="navbar-nav align-items-center">
-            <div class="nav-item d-flex align-items-center">
-                <i class="bx bx-search fs-4 lh-0"></i>
-                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
-                    aria-label="Search..." />
-            </div>
+            <form action="{{ url()->current() }}" method="GET">
+                <div class="nav-item d-flex align-items-center">
+                    <i class="bx bx-search fs-4 lh-0"></i>
+                    <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                        aria-label="Search..." name="search" value="{{ request()->query('search') }}"
+                        id="searchInput" />
+                </div>
+            </form>
         </div>
         <!-- /Search -->
 
+        @php
+            $notifications = auth()->user()->notifications()->latest()->take(3)->get();
+            $count = auth()->user()->notifications()->unread()->count();
+        @endphp
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             <!-- Place this tag where you want the button to render. -->
 
@@ -36,7 +43,7 @@
                     <!-- Icone de trois points -->
                     <i class="fa-regular fa-bell text-2xl position-relative"></i>
                     <span class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger">
-                        5+
+                        {{ $count }}
                         <span class="visually-hidden">unread messages</span>
                     </span>
                 </button>
@@ -49,75 +56,43 @@
                         <!-- En-tête de la liste des notifications -->
                         <div class="px-4 py-2 flex items-center justify-between font-semibold text-gray-500 text-lg">
                             <span>Liste des notifications</span>
-                            <i class="fa-regular fa-envelope-open"></i>
+                            <i class="fa-regular fa-envelope"></i>
                         </div>
                         <hr class="border-3 border-gray-700">
 
                         <!-- Notifications -->
-                        <div class="px-4 py-2 flex items-center text-sm">
-                            <!-- Icone avec fond de couleur aléatoire -->
-                            <div class="h-10 w-10 rounded-full flex items-center justify-center"
-                                style="background-color: #{{ dechex(rand(0x000000, 0xffffff)) }}">
-                                <!-- Icone de personne -->
-                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 2c3.866 0 7 3.134 7 7 0 3.866-3.134 7-7 7-3.866 0-7-3.134-7-7 0-3.866 3.134-7 7-7zM12 14c2.33 0 4.336-.97 5.802-2.524C17.381 10.23 14.76 9 12 9c-2.76 0-5.381 1.23-6.802 2.476C7.664 13.03 9.67 14 12 14zM2 20v2h20v-2">
-                                    </path>
-                                </svg>
+                        @foreach ($notifications as $notification)
+                            <div class="px-4 py-2 flex items-center text-sm">
+                                <!-- Icone avec fond de couleur aléatoire -->
+                                <div class="h-10 w-10 rounded-full flex items-center justify-center"
+                                    style="background-color: #{{ dechex(rand(0x000000, 0xffffff)) }}">
+                                    <!-- Icone de personne -->
+                                    <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 2c3.866 0 7 3.134 7 7 0 3.866-3.134 7-7 7-3.866 0-7-3.134-7-7 0-3.866 3.134-7 7-7zM12 14c2.33 0 4.336-.97 5.802-2.524C17.381 10.23 14.76 9 12 9c-2.76 0-5.381 1.23-6.802 2.476C7.664 13.03 9.67 14 12 14zM2 20v2h20v-2">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="font-semibold text-base">
+                                        {{ substr($notification->title_notification, 0, 30) . '...' }}</div>
+                                    <div class="text-gray-600">
+                                        {{ substr($notification->contenu_notification, 0, 40) . '...' }}</div>
+                                    <div class="text-sm text-gray-500">{{ $notification->created_at->diffForHumans() }}
+                                    </div>
+                                </div>
                             </div>
-                            <div class="ml-4">
-                                <div class="font-semibold text-base">Notification Title 1</div>
-                                <div class="text-gray-600">Notification message goes here...</div>
-                                <div class="text-sm text-gray-500">3 hours ago</div>
-                            </div>
-                        </div>
-                        <hr class="border-3 border-gray-700">
-                        <div class="px-4 py-2 flex items-center text-sm">
-                            <!-- Icone avec fond de couleur aléatoire -->
-                            <div class="h-10 w-10 rounded-full flex items-center justify-center"
-                                style="background-color: #{{ dechex(rand(0x000000, 0xffffff)) }}">
-                                <!-- Icone de personne -->
-                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 2c3.866 0 7 3.134 7 7 0 3.866-3.134 7-7 7-3.866 0-7-3.134-7-7 0-3.866 3.134-7 7-7zM12 14c2.33 0 4.336-.97 5.802-2.524C17.381 10.23 14.76 9 12 9c-2.76 0-5.381 1.23-6.802 2.476C7.664 13.03 9.67 14 12 14zM2 20v2h20v-2">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <div class="font-semibold text-base">Notification Title 2</div>
-                                <div class="text-gray-600">Notification message goes here...</div>
-                                <div class="text-sm text-gray-500">2 hours ago</div>
-                            </div>
-                        </div>
-                        <hr class="border-3 border-gray-700">
-                        {{-- <hr class="border-gray-700 "> --}}
-                        <div class="px-4 py-2 flex items-center text-sm">
-                            <!-- Icone avec fond de couleur aléatoire -->
-                            <div class="h-10 w-10 rounded-full flex items-center justify-center"
-                                style="background-color: #{{ dechex(rand(0x000000, 0xffffff)) }}">
-                                <!-- Icone de personne -->
-                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 2c3.866 0 7 3.134 7 7 0 3.866-3.134 7-7 7-3.866 0-7-3.134-7-7 0-3.866 3.134-7 7-7zM12 14c2.33 0 4.336-.97 5.802-2.524C17.381 10.23 14.76 9 12 9c-2.76 0-5.381 1.23-6.802 2.476C7.664 13.03 9.67 14 12 14zM2 20v2h20v-2">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <div class="font-semibold text-base">Notification Title 3</div>
-                                <div class="text-gray-600">Notification message goes here...</div>
-                                <div class="text-sm text-gray-500">1 hour ago</div>
-                            </div>
-                        </div>
-                        <hr class="border-3 border-gray-700">
+                            <hr class="border-3 border-gray-700">
+                        @endforeach
+
 
                         <!-- Centré le bouton à la fin avec animation au survol -->
                         <div class="flex justify-center mt-3 mb-2">
                             <button
                                 class="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-                                <a class="hover:text-white" href="{{ route('user_notification_index') }}">Voir la liste
+                                <a class="hover:text-white" href="{{ route('user_notification_index.unread') }}">Voir la
+                                    liste
                                     des
                                     notifications</a>
                             </button>
@@ -158,7 +133,7 @@
                     <li>
                         <a class="dropdown-item" href="{{ route('edit_created_user', ['user' => Auth::user()]) }}">
                             <i class="bx bx-user me-2"></i>
-                            <span class="align-middle">Modifier mon profile</span>
+                            <span class="align-middle">Modifier mon profil</span>
                         </a>
                     </li>
                     <li>

@@ -21,4 +21,9 @@ class Service extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public static function getAllServiceNames()
+    {
+        return self::pluck('nom_service');
+    }
 }

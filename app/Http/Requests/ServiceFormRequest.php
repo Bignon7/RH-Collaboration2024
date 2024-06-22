@@ -24,7 +24,7 @@ class ServiceFormRequest extends FormRequest
         return [
             'nom_service' => ['string', 'required', 'max:120'],
             'chef_service' => ['string', 'required', 'max:150'],
-            'effectif_service' => ['integer', 'required', 'max:1200'],
+            'effectif_service' => ['integer', 'nullable', 'max:1200'],
             'detail_service' => ['nullable', 'string'],
         ];
     }
@@ -42,7 +42,7 @@ class ServiceFormRequest extends FormRequest
             'chef_service.max' => 'Le nom du chef de service ne peut pas dépasser 150 caractères.',
             // 'chef_service.regex' => 'Le nom du chef de service ne peut contenir que des lettres et des espaces.',
 
-            'effectif_service.required' => "L'effectif du service est obligatoire.",
+            // 'effectif_service.required' => "L'effectif du service est obligatoire.",
             'effectif_service.integer' => "L'effectif du service doit être un nombre entier.",
             'effectif_service.max' => "L'effectif du service ne peut pas dépasser 1200.",
 

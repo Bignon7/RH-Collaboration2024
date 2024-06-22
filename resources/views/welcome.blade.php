@@ -177,7 +177,7 @@
                     <h1 class="text-4xl md:text-6xl font-bold mb-4">Bienvenue à StaffNest</h1>
                     <p class="text-lg md:text-xl mb-8">Votre solution de gestion du personnel</p>
                     <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-                        <a href="#">Découvrez plus</a>
+                        <a href="#about">Découvrez plus</a>
                     </button>
                 </div>
             </div>
@@ -189,7 +189,7 @@
                     <h1 class="text-4xl md:text-6xl font-bold mb-4">Découvrez nos services</h1>
                     <p class="text-lg md:text-xl mb-8">Solutions adaptées à vos besoins</p>
                     <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-                        <a href="#">En savoir plus</a>
+                        <a href="#services">En savoir plus</a>
                     </button>
                 </div>
             </div>
@@ -202,7 +202,7 @@
                     <h1 class="text-4xl md:text-6xl font-bold mb-4">Rejoignez-nous</h1>
                     <p class="text-lg md:text-xl mb-8">Construisons ensemble l'avenir</p>
                     <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-                        <a href="#">Contactez-nous</a>
+                        <a href="{{ route('contact_us') }}">Contactez-nous</a>
                     </button>
                 </div>
             </div>
@@ -294,7 +294,7 @@
         <!-- Service 2 -->
         <div class="service text-center bg-white p-6 shadow-lg rounded-lg">
             <div class="icon text-indigo-500 mb-4">
-                <i class="fas fa-lightbulb text-4xl"></i>
+                {{-- <i class="fas fa-lightbulb text-4xl"></i> --}}
                 <i class="fa-solid fa-book text-4xl"></i>
             </div>
             <h3 class="font-bold text-lg text-gray-500">Planification et suivi des formations</h3>
@@ -307,11 +307,13 @@
         <!-- Service 3 -->
         <div class="service text-center bg-white p-6 shadow-lg rounded-lg">
             <div class="icon text-indigo-500 mb-4">
-                <i class="fa-solid fa-chart-line text-4xl"></i>
+                <i class="fa-solid fa-hand text-4xl"></i>
+                {{-- <i class="fa-solid fa-bell-concierge text-4xl"></i> --}}
             </div>
-            <h3 class="font-bold text-lg text-gray-500">Évaluation et suivi des performances</h3>
-            <p class="text-gray-600">Permet aux gestionnaires RH d'évaluer régulièrement les performances des
-                employés selon des critères prédéfinis et de générer des rapports détaillés sur les évaluations.</p>
+            <h3 class="font-bold text-lg text-gray-500">Système de pointage</h3>
+            <p class="text-gray-600">Facilite la vérification journalière de la présence physique et de la ponctualité
+                de chacun
+                des employés de l'entreprise en un simple clic.</p>
         </div>
     </div>
 
@@ -335,7 +337,7 @@
             </div>
             <h3 class="font-bold text-lg text-gray-500">Accès et gestion des fiches de paie</h3>
             <p class="text-gray-600">Les employés peuvent consulter et télécharger leurs fiches de paie,
-                tandis que les gestionnaires peuvent les générer et les distribuer, simplifiant ainsi le processus de
+                tandis que les gestionnaires peuvent les importer et les distribuer, simplifiant ainsi le processus de
                 paie.</p>
         </div>
 
@@ -358,8 +360,9 @@
                 <!-- Colonne 1 -->
                 <div>
                     <h3 class="text-xl font-bold mb-6">À propos</h3>
-                    <p class="text-gray-400 leading-relaxed">Nous sommes une entreprise dédiée à fournir les meilleurs
-                        services à nos clients. Votre satisfaction est notre priorité.</p>
+                    <p class="text-gray-400 leading-relaxed">StaffNest est une application web dédiée à fournir les
+                        meilleurs outils de gestion du personnel de votre entreprise. Votre satisfaction est notre
+                        priorité.</p>
                 </div>
 
                 <!-- Colonne 2 -->
@@ -373,7 +376,8 @@
                                 propos</a></li>
                         <li><a href="#services"
                                 class="hover:text-indigo-500 transition-colors duration-300">Services</a></li>
-                        <li><a href="#" class="hover:text-indigo-500 transition-colors duration-300">Contact</a>
+                        <li><a href="{{ route('contact_us') }}"
+                                class="hover:text-indigo-500 transition-colors duration-300">Contact</a>
                         </li>
                     </ul>
                 </div>

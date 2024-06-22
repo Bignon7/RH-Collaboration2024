@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,5 +43,21 @@ class Notification extends Model
     public function scopeUnread($query)
     {
         return $query->whereNull('read_at');
+    }
+
+    public function getFormattedDateAttribute()
+    {
+        $createdAt = Carbon::parse($this->created_at);
+        $now = Carbon::now();
+
+        Carbon::setLocale('fr');
+
+        if ($createdAt->isSameYear($now)) {
+            return $createdAt->diffInDays() > 1
+                ? $createdAt->translatedFormat('d F')
+                : $createdAt->diffForHumans();
+        } else {
+            return $createdAt->translatedFormat('d F Y');
+        }
     }
 }

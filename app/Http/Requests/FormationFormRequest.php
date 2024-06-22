@@ -23,7 +23,7 @@ class FormationFormRequest extends FormRequest
     {
         return [
             'intitule_formation' => ['required', 'string', 'max:255'],
-            'description_formation' => ['required'],
+            'description_formation' => ['required', 'string'],
             'date_debut_formation' => ['required', 'string', 'max:255'],
             'duree_formation' => ['required', 'string', 'max:255'],
             'date_fin_formation' => ['required', 'string', 'max:255'],

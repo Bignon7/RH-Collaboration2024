@@ -2,73 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Formation;
 use App\Models\Inscription;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InscriptionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    // public function indexById($id)
+    // {
+    //     return view('pages.indexs.inscription_index', [
+    //         'inscriptions' => Inscription::where('user_id', $id)->orderBy('created_at', 'desc')->paginate(1),
+    //     ]);
+    // }
+
+    public function indexById(Request $request)
     {
-        //
+        $query = Inscription::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc');
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->search($search);
+        }
+
+        $inscriptions = $query->paginate(6);
+
+        return view('pages.indexs.inscription_index', compact('inscriptions'));
     }
 
-
-    public function indexById($id)
+    public function inscrire($formationId)
     {
-        return view('pages.indexs.inscription_index', [
-            'inscriptions' => Inscription::where('user_id', $id)->orderBy('created_at', 'desc')->paginate(1),
-        ]);
+        $formation = Formation::findOrFail($formationId);
+
+        $inscription = new Inscription();
+        $inscription->user_id = Auth::id();
+        $inscription->formation_id = $formationId;
+        $inscription->date_inscription = now();
+        $inscription->save();
+        NotificationService::notifyInscription($inscription);
+        return redirect()->back()->with('success', 'Vous êtes inscrit à la formation.');
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function quitter($formationId)
     {
-        //
-    }
+        $inscription = Inscription::where('user_id', Auth::id())
+            ->where('formation_id', $formationId)
+            ->first();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        if ($inscription) {
+            $inscription->delete();
+        }
+        return redirect()->back()->with('success', 'Vous avez quitté la formation.');
     }
 }

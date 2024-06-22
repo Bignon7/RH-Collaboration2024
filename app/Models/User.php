@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use InvalidArgumentException;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -36,7 +37,7 @@ class User extends Authenticatable
         'password',
         'salaire',
         'duree_contrat',
-        'contrat',
+        'lien_contrat',
     ];
 
     /**
@@ -87,5 +88,35 @@ class User extends Authenticatable
     public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class);
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    public static function generateComplexPassword($length = 12)
+    {
+        if ($length < 8) {
+            throw new InvalidArgumentException('Password length must be at least 8 characters.');
+        }
+
+        $lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        $uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $numbers = '0123456789';
+        $special = '!@#$%^&*-_=+|:.<>?';
+
+        $randomPassword = $lowercase[random_int(0, strlen($lowercase) - 1)];
+        $randomPassword .= $uppercase[random_int(0, strlen($uppercase) - 1)];
+        $randomPassword .= $numbers[random_int(0, strlen($numbers) - 1)];
+        $randomPassword .= $special[random_int(0, strlen($special) - 1)];
+
+        $allCharacters = $lowercase . $uppercase . $numbers . $special;
+
+        for ($i = 4; $i < $length; $i++) {
+            $randomPassword .= $allCharacters[random_int(0, strlen($allCharacters) - 1)];
+        }
+
+        return str_shuffle($randomPassword);
     }
 }

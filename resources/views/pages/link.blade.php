@@ -7,7 +7,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Admin | Dashboard</title>
+    <title> {{ config('app.name') }} | Dashboard</title>
     {{-- <title>{{ config('app.name') }} - @yield('title')</title> --}}
 
     <meta name="description" content="" />
@@ -72,6 +72,33 @@
                 @include('nav')
                 <!-- / Navbar -->
 
+                <!-- Message de session -->
+                @if (session('success') || session('error') || session('status'))
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        @if (session('success'))
+                            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4"
+                                role="alert">
+                                <p class="font-bold">Succès</p>
+                                <p>{{ session('success') }}</p>
+                            </div>
+                        @endif
+
+                        @if (session('error'))
+                            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+                                <p class="font-bold">Erreur</p>
+                                <p>{{ session('error') }}</p>
+                            </div>
+                        @endif
+
+                        @if (session('status'))
+                            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
+                                <p class="font-bold">Statut</p>
+                                <p>{{ session('status') }}</p>
+                            </div>
+                        @endif
+                    </div>
+                @endif
+                <!-- / Message de session -->
 
                 @yield('content')
 
