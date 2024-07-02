@@ -60,6 +60,11 @@
                                                 la
                                                 fiche</a>
                                         </p>
+                                    @elseif (isset($decodedData['demandeconge']['justificatif']))
+                                        <p class="text-gray-600 font-semibold">Pièce jointe : <a
+                                                class="text-indigo-500 hover:text-indigo-600"
+                                                href="storage/{{ $decodedData['demandeconge']['justificatif'] }}">Justificatif</a>
+                                        </p>
                                     @endif
                                 @endif
 

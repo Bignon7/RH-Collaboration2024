@@ -30,6 +30,12 @@
                                     </p>
                                     <p class="text-gray-600 mb-2"><strong>Motif:</strong> {{ $demandeconge->motif_conge }}
                                     </p>
+                                    @if ($demandeconge->justificatif)
+                                        <p class="text-gray-600 mb-2 font-semibold"><strong>Pièce jointe:</strong> <a
+                                                class="text-indigo-500 hover:text-indigo-600"
+                                                href="storage/{{ $demandeconge->justificatif }}">Justificatif</a>
+                                        </p>
+                                    @endif
                                     @if (!$demandeconge->statut_conge && Auth::user()->role != 'Employé' && Auth::user()->id != $demandeconge->user->id)
                                         <p class="text-gray-600 mb-4">
                                             <strong>Acceptable:</strong>
@@ -46,6 +52,7 @@
                                                 class="inline-block px-2 py-1 text-white rounded-md
                                             @if ($demandeconge->statut_conge == 'Approuvée') bg-green-500
                                             @elseif($demandeconge->statut_conge == 'Rejetée') bg-red-500
+                                            @elseif($demandeconge->statut_conge == 'Expirée') bg-orange-500
                                             @else bg-yellow-500 @endif">
                                                 {{ $demandeconge->statut_conge ? ucfirst($demandeconge->statut_conge) : 'En cours' }}
                                             </span>

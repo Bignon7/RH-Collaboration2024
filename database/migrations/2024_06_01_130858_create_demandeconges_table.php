@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('duree_conge');
             $table->string('date_retour_conge');
             $table->text('motif_conge');
-            $table->enum('statut_conge', ['Approuvée', 'Rejetée'])->nullable();
+            $table->enum('statut_conge', ['Approuvée', 'Rejetée', 'Expirée'])->nullable();
             $table->timestamps();
         });
     }

@@ -141,7 +141,7 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex-shrink-0">
                     <a href="#" class="xs:text-2xl sm:text-3xl font-bold brand-color brand-color-hover">
-                        StaffNest
+                        RH-Optimize
                     </a>
                 </div>
 
@@ -174,7 +174,7 @@
             <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 opacity-50"></div>
             <div class="absolute inset-0 flex items-center justify-center">
                 <div class="text-center text-white px-4">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-4">Bienvenue à StaffNest</h1>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4">Bienvenue sur RH-Optimize</h1>
                     <p class="text-lg md:text-xl mb-8">Votre solution de gestion du personnel</p>
                     <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
                         <a href="#about">Découvrez plus</a>
@@ -360,7 +360,7 @@
                 <!-- Colonne 1 -->
                 <div>
                     <h3 class="text-xl font-bold mb-6">À propos</h3>
-                    <p class="text-gray-400 leading-relaxed">StaffNest est une application web dédiée à fournir les
+                    <p class="text-gray-400 leading-relaxed">RH-Optimize est une application web dédiée à fournir les
                         meilleurs outils de gestion du personnel de votre entreprise. Votre satisfaction est notre
                         priorité.</p>
                 </div>

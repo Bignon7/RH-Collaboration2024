@@ -28,6 +28,7 @@ class DemandecongeFormRequest extends FormRequest
             'date_retour_conge' => ['required', 'string', 'max:255'],
             'motif_conge' => ['required', 'string'],
             'statut_conge' => ['nullable', 'string', 'in:approuvée,rejetée'],
+            'justificatif' => ['nullable', 'max:2048']
         ];
     }
 

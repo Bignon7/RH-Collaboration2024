@@ -76,6 +76,16 @@ class NotificationService
     }
 
 
+    public static function notifyDemandeExpired($userId, $demandeconge)
+    {
+        $type = 'demande_conge_expired';
+        $title = "Votre demande de congé a expiré";
+        $content = "Votre demande de congé prévue pour débuter le " . $demandeconge->date_debut_conge . " n'a pas reçu de réponse et a donc expiré.";
+        $data = ['demandeconge' => $demandeconge];
+
+        self::sendToUser($userId, $type, $title, $content, $data);
+    }
+
     public static function notifyInscription($inscription)
     {
         $type = 'new_inscription';
@@ -137,6 +147,15 @@ class NotificationService
         $data = [];
 
         self::sendToUser($userId, $type, $title, $content, $data);
+    }
+    public static function notifyEvent($event)
+    {
+        $type = 'event_day';
+        $title = 'Nous célébrons ' . $event->title . ' en ce jour';
+        $content = "Aujourd'hui nous célébrons " . $event->title . " qui est une date particulière dans l'entreprise";
+        $data = ['event' => $event];
+        $userIds = User::all()->pluck('id');
+        self::sendToUsers($userIds, $type, $title, $content, $data);
     }
 }
 

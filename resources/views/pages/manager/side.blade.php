@@ -1,10 +1,11 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo text-start" style="width: 100%; display: flex; justify-content: flex-start;">
-        <a href="#" class="app-brand-link inline-block" style="display: flex; align-items: center;">
+        <a href="#" class="app-brand-link inline-block"
+            style="display: flex; align-items: center; margin-left:-20px;">
             <span class="app-brand-logo demo" style="display: flex; align-items: center;">
                 <img src="storage/img/logo_nbg.ico" alt="" style="height:20%; width:20%; ">
                 <span style="text-transform:capitalize;"
-                    class="app-brand-text demo menu-text fw-bolder">StaffNest</span>
+                    class="app-brand-text demo menu-text fw-bolder">RH-Optimize</span>
             </span>
         </a>
 
@@ -27,7 +28,7 @@
         <!-- Layouts -->
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <i class="menu-icon tf-icons bx bx-group"></i>
                 <div data-i18n="Layouts">Gestion des employés</div>
             </a>
 
@@ -56,7 +57,7 @@
         </li>
         <li class="menu-item">
             <a href="{{ route('showsession') }}" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class="menu-icon tf-icons bx bx-receipt"></i>
                 <div data-i18n="Account Settings">Fiches de paie</div>
             </a>
 
@@ -66,7 +67,7 @@
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 {{-- <a href="{{ route('show_formation_form') }}" class="menu-link menu-toggle"> --}}
-                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <i class="menu-icon tf-icons bx bx-clipboard"></i>
                 <div data-i18n="Authentications">Plannifier les formations</div>
             </a>
             <ul class="menu-sub">
@@ -83,6 +84,30 @@
 
             </ul>
         </li>
+
+        <!--Ajout -->
+        <li class="menu-item">
+            <a href="{{ route('dossiers_personnel.byEmployee') }}" class="menu-link ">
+                <i class="menu-icon tf-icons bx bx-folder"></i>
+                <div data-i18n="Account Settings">Dossiers du personnel</div>
+            </a>
+
+        </li>
+        {{-- <li class="menu-item">
+            <a href="{{ route('planning.show') }}" class="menu-link ">
+                <i class="menu-icon tf-icons bx bx-calendar"></i>
+                <div data-i18n="Account Settings">Planning</div>
+            </a>
+
+        </li> --}}
+        <li class="menu-item">
+            <a href="{{ route('index_contrat_user.worked_hours') }}" class="menu-link ">
+                <i class="menu-icon tf-icons bx bx-hourglass"></i>
+                <div data-i18n="Account Settings">Heures travaillées</div>
+            </a>
+
+        </li>
+        <!--/ Ajout-->
 
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Section personnelle</span>
@@ -149,7 +174,13 @@
             </a>
 
         </li>
+        <li class="menu-item">
+            <a href="{{ route('planning.show') }}" class="menu-link ">
+                <i class="menu-icon tf-icons bx bx-calendar"></i>
+                <div data-i18n="Account Settings">Planning</div>
+            </a>
 
+        </li>
 
     </ul>
 </aside>

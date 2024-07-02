@@ -99,7 +99,7 @@
         <div class="flex items-center justify-end mt-4">
             <button
                 class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest text-gray-500 border border-gray-500 transition  duration-300 hover:bg-gray-500 hover:text-white">
-                <a href="{{ route('get_dash') }}">Annuler</a>
+                <a href="{{ route('get_dash') }}">RETOUR</a>
             </button>
             <x-primary-button class="ms-4">
                 {{ isset($service) ? __('Mettre à jour') : __('Enregistrer') }}

@@ -18,6 +18,8 @@ class FormationController extends Controller
     public function index(Request $request)
     {
         $query = Formation::orderBy('created_at', 'desc');
+        // $query = Formation::orderByRaw('now() < date_debut_formation desc')
+        //     ->orderBy('created_at', 'desc');
 
         if ($request->has('search')) {
             $search = $request->input('search');

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->time('clock_in_time')->nullable();
             $table->date('clock_out_date')->nullable();
             $table->time('clock_out_time')->nullable();
+            $table->decimal('hours_worked', 8, 2)->nullable();
             $table->timestamps();
         });
     }

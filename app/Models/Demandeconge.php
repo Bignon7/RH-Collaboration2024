@@ -18,6 +18,7 @@ class Demandeconge extends Model
         'date_retour_conge',
         'motif_conge',
         'statut_conge',
+        'justicicatif'
     ];
 
     public function user(): BelongsTo

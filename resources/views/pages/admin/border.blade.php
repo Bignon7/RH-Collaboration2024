@@ -41,8 +41,13 @@
         [x-cloak] {
             display: none !important;
         }
-    </style>
 
+        .icon {
+            font-size: 1.5rem;
+            /* Agrandir les icônes */
+            padding: 0.5rem 0.75rem;
+        }
+    </style>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Helpers -->
     <script src="assets/vendor/js/helpers.js"></script>
@@ -95,19 +100,128 @@
                 @endif
                 <!-- / Message de session -->
 
+                <!-- Stats -->
+                <div class="header bg-gradient-dark pb-8 pt-5 pt-md-8 ">
+                    <div class="container-fluid">
+                        <div class="header-body">
+                            <div class="row">
+                                <!-- Formations -->
+                                <div class="col-lg-6 col-xl-3 col-sm-6">
+                                    <div class="card-stats mb-4 mb-xl-0 card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h5 class="text-uppercase text-muted mb-0 card-title">Formations
+                                                    </h5>
+                                                    <span
+                                                        class="h2 font-weight-bold mb-0">{{ \App\Models\Formation::count() }}</span>
+                                                </div>
+                                                <div class="col-auto col">
+                                                    <div
+                                                        class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                                        <i class="fas fa-chalkboard-teacher"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="mt-3 mb-0 text-muted text-sm">
+                                                <span class="text-nowrap">Nombre total de formations</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Services -->
+                                <div class="col-lg-6 col-xl-3 col-sm-6">
+                                    <div class="card-stats mb-4 mb-xl-0 card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h5 class="text-uppercase text-muted mb-0 card-title">Services</h5>
+                                                    <span
+                                                        class="h2 font-weight-bold mb-0">{{ \App\Models\Service::count() }}</span>
+                                                </div>
+                                                <div class="col-auto col">
+                                                    <div
+                                                        class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                                        <i class="fas fa-concierge-bell"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="mt-3 mb-0 text-muted text-sm">
+                                                <span class="text-nowrap">Nombre total de services</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Employés -->
+                                <div class="col-lg-6 col-xl-3 col-sm-6">
+                                    <div class="card-stats mb-4 mb-xl-0 card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h5 class="text-uppercase text-muted mb-0 card-title">Employés</h5>
+                                                    <span
+                                                        class="h2 font-weight-bold mb-0">{{ \App\Models\User::where('role', 'employe')->count() }}</span>
+                                                </div>
+                                                <div class="col-auto col">
+                                                    <div
+                                                        class="icon icon-shape bg-indigo-500 text-white rounded-circle shadow">
+                                                        <i class="fas fa-users"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="mt-3 mb-0 text-muted text-sm">
+                                                <span class="text-nowrap">Nombre total d'employés</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Gestionnaires -->
+                                <div class="col-lg-6 col-xl-3 col-sm-6">
+                                    <div class="card-stats mb-4 mb-xl-0 card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h5 class="text-uppercase text-muted mb-0 card-title">Gestionnaires
+                                                    </h5>
+                                                    <span
+                                                        class="h2 font-weight-bold mb-0">{{ \App\Models\User::where('role', 'gestionnaire')->count() }}</span>
+                                                </div>
+                                                <div class="col-auto col">
+                                                    <div
+                                                        class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                                        <i class="fas fa-user-tie"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="mt-3 mb-0 text-muted text-sm">
+                                                <span class="text-nowrap">Nombre total de gestionnaires</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Stats -->
 
                 <!--  Badge -->
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <div class="row">
-                        <div class="col-12 mb-4 order-0">
+                    <div class="row  items-center ">
+                        <div class="col-12 col-md-9 mb-2 order-0">
                             <div class="card">
                                 <div class="d-flex align-items-end">
                                     <div class="col-sm-6 col-md-9">
                                         <div class="card-body">
-                                            <h5 class="card-title text-primary">Bienvenue {{ Auth::user()->prenom }} !🎉
+                                            <h5 class="card-title text-primary mb-4 text-md">Bienvenue
+                                                {{ Auth::user()->prenom }}
+                                                !🎉
                                             </h5>
                                             <p class="mb-4">
                                                 Heureux de vous revoir
+                                            </p>
+                                            <p>Nous sommes le
+                                                {{ \Carbon\Carbon::now()->locale('fr_FR')->isoFormat('dddd D MMMM YYYY') }}
                                             </p>
 
                                             {{-- <a href="javascript:;" class="btn btn-sm btn-outline-primary">View
@@ -125,13 +239,23 @@
                                 </div>
                             </div>
                         </div>
+                        <!--  Chart -->
+                        <div class="col-12 col-md-3 mb-2 order-0">
+                            <div class="card  text-center">
+                                <h2 class="text-lg font-semibold text-gray-500 px-3 mt-2">Heures Travaillées ce
+                                    mois-ci
+                                </h2>
+                                @include('pages.update.dash_stat')
+                            </div>
+                        </div>
+                        <!--  /Chart -->
+
                     </div>
                 </div>
                 <!-- / Badge -->
 
-
                 <!-- Profile -->
-                <div class="container mt-5 mb-5">
+                <div class="container mt-3 mb-5">
                     <div class="card profile-card">
                         <div class="card-header text-center mb-5"
                             style="background-color: #696cff;
@@ -182,7 +306,8 @@
                                         <p><strong>Salaire:</strong> {{ Auth::user()->salaire }}/an</p>
                                     @endif
                                     @if (Auth::user()->lien_contrat)
-                                        <p><strong>Contrat:</strong> <a href="storage/{{ Auth::user()->lien_contrat }}"
+                                        <p><strong>Contrat:</strong> <a
+                                                href="storage/{{ Auth::user()->lien_contrat }}"
                                                 class="text-indigo-500">Voir le
                                                 contrat</a></p>
                                     @endif

@@ -43,4 +43,77 @@ class DocumentController extends Controller
             return view('pages.show_pdf_view', ['lien' => $user->lien_contrat]);
         }
     }
+
+
+    public function dossier_perso()
+    {
+        // Obtenez tous les utilisateurs avec tous leurs fichiers personnels
+        $users = User::with(['demandeconges' => function ($query) {
+            $query->whereNotNull('justificatif');
+        }])
+            ->orWhereNotNull('comp_file')
+            ->orWhereNotNull('photo_file')
+            ->orWhereNotNull('lien_contrat')
+            ->with('fichePaies')
+            ->get();
+
+        return view('pages.update.dossiers', compact('users'));
+    }
+
+    public function dossier_perso_folder()
+    {
+        $users = User::with(['demandeconges', 'fichePaies'])->get();
+
+        $filesGroupedByType = [
+            'photos' => [],
+            'comp_files' => [],
+            'contrats' => [],
+            'justificatifs' => [],
+            'fiches_de_paie' => []
+        ];
+
+        foreach ($users as $user) {
+            if ($user->photo_file) {
+                $filesGroupedByType['photos'][] = [
+                    'user' => $user,
+                    'file' => $user->photo_file,
+                    'type' => 'Photo'
+                ];
+            }
+            if ($user->comp_file) {
+                $filesGroupedByType['comp_files'][] = [
+                    'user' => $user,
+                    'file' => $user->comp_file,
+                    'type' => 'Compétence'
+                ];
+            }
+            if ($user->lien_contrat) {
+                $filesGroupedByType['contrats'][] = [
+                    'user' => $user,
+                    'file' => $user->lien_contrat,
+                    'type' => 'Contrat'
+                ];
+            }
+            foreach ($user->demandeconges as $demandeconge) {
+                if ($demandeconge->justificatif) {
+                    $filesGroupedByType['justificatifs'][] = [
+                        'user' => $user,
+                        'file' => $demandeconge->justificatif,
+                        'type' => 'Justificatif'
+                    ];
+                }
+            }
+            foreach ($user->fichePaies as $fiche) {
+                if ($fiche->lien_fiche) {
+                    $filesGroupedByType['fiches_de_paie'][] = [
+                        'user' => $user,
+                        'file' => $fiche->lien_fiche,
+                        'type' => 'Fiche de paie'
+                    ];
+                }
+            }
+        }
+
+        return view('pages.update.dossiers', compact('filesGroupedByType'));
+    }
 }

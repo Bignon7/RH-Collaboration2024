@@ -15,9 +15,56 @@ class DemandecongeController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index(Request $request)
+    // {
+    //     $query = Demandeconge::orderBy('created_at', 'desc');
+
+    //     if ($request->has('search')) {
+    //         $search = $request->input('search');
+
+    //         $query->where(function ($query) use ($search) {
+    //             $query->where('user_id', 'LIKE', "%{$search}%")
+    //                 ->orWhere('type_conge', 'LIKE', "%{$search}%")
+    //                 ->orWhere('date_debut_conge', 'LIKE', "%{$search}%")
+    //                 ->orWhere('duree_conge', 'LIKE', "%{$search}%")
+    //                 ->orWhere('date_retour_conge', 'LIKE', "%{$search}%")
+    //                 ->orWhere('motif_conge', 'LIKE', "%{$search}%")
+    //                 ->orWhere('statut_conge', 'LIKE', "%{$search}%");
+    //         });
+    //         $query->orWhereHas('user', function ($q) use ($search) {
+    //             $q->where('matricule', 'LIKE', "%{$search}%")
+    //                 ->orWhere('nom', 'LIKE', "%{$search}%")
+    //                 ->orWhere('prenom', 'LIKE', "%{$search}%")
+    //                 ->orWhere('email', 'LIKE', "%{$search}%");
+    //         });
+    //     }
+
+    //     // Exécuter la requête et obtenir les résultats
+    //     //$demandeconges = $query->get();
+    //     $demandeconges = $query->paginate(6);
+
+    //     return view('pages.indexs.demandeconge_index', compact('demandeconges'));
+    // }
+
     public function index(Request $request)
     {
-        $query = Demandeconge::orderBy('created_at', 'desc');
+        // Modifier le satut des demandes dont la date de début est déjà atteinte
+        $expireds = Demandeconge::whereNull('statut_conge')
+            ->where('date_debut_conge', '<=', now())
+            ->get();
+
+        Demandeconge::whereIn('id', $expireds->pluck('id'))
+            ->update(['statut_conge' => 'Expirée']);
+
+        foreach ($expireds as $expired) {
+            NotificationService::notifyDemandeExpired($expired->user_id, $expired);
+        }
+
+        // Récupérer toutes les données pour les afficher
+        $query = Demandeconge::query();
+
+        // Requête de tri des demandes de congé
+        $query->orderByRaw("CASE WHEN statut_conge IS NULL THEN 0 ELSE 1 END, created_at DESC");
 
         if ($request->has('search')) {
             $search = $request->input('search');
@@ -31,6 +78,7 @@ class DemandecongeController extends Controller
                     ->orWhere('motif_conge', 'LIKE', "%{$search}%")
                     ->orWhere('statut_conge', 'LIKE', "%{$search}%");
             });
+
             $query->orWhereHas('user', function ($q) use ($search) {
                 $q->where('matricule', 'LIKE', "%{$search}%")
                     ->orWhere('nom', 'LIKE', "%{$search}%")
@@ -39,12 +87,14 @@ class DemandecongeController extends Controller
             });
         }
 
-        // Exécuter la requête et obtenir les résultats
-        //$demandeconges = $query->get();
         $demandeconges = $query->paginate(6);
 
         return view('pages.indexs.demandeconge_index', compact('demandeconges'));
     }
+
+
+
+
 
     // public function indexById($id)
     // {
@@ -97,7 +147,24 @@ class DemandecongeController extends Controller
     {
         $validatedData = $request->validated();
         $validatedData['user_id'] = Auth::id();
-        $demandeconge = Demandeconge::create($validatedData);
+
+        if ($request->hasFile('justificatif')) {
+            $justificatif = $request->file('justificatif');
+            $justificatifPath = $justificatif->store('justificatifs', 'public');
+            $validatedData['justificatif'] = $justificatifPath;
+        }
+        $demandeconge = new Demandeconge();
+        $demandeconge->user_id = $validatedData['user_id'];
+        $demandeconge->type_conge = $validatedData['type_conge'];
+        $demandeconge->date_debut_conge = $validatedData['date_debut_conge'];
+        $demandeconge->duree_conge = $validatedData['duree_conge'];
+        $demandeconge->date_retour_conge = $validatedData['date_retour_conge'];
+        $demandeconge->motif_conge = $validatedData['motif_conge'];
+        if (isset($validatedData['justificatif'])) {
+            $demandeconge->justificatif = $validatedData['justificatif'];
+        }
+        $demandeconge->save();
+
         NotificationService::notifyDemandeConge($demandeconge);
         return to_route('get_dash')->with('success', 'Votre demande a bien été envoyée!');
     }
@@ -124,7 +191,23 @@ class DemandecongeController extends Controller
     public function update(DemandecongeFormRequest $request, $id)
     {
         $demandeconge = Demandeconge::findOrFail($id);
-        $demandeconge->update($request->validated());
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('justificatif')) {
+            $justificatif = $request->file('justificatif');
+            $justificatifPath = $justificatif->store('justificatifs', 'public');
+            $validatedData['justificatif'] = $justificatifPath;
+        }
+        $demandeconge->type_conge = $validatedData['type_conge'];
+        $demandeconge->date_debut_conge = $validatedData['date_debut_conge'];
+        $demandeconge->duree_conge = $validatedData['duree_conge'];
+        $demandeconge->date_retour_conge = $validatedData['date_retour_conge'];
+        $demandeconge->motif_conge = $validatedData['motif_conge'];
+        if (isset($validatedData['justificatif'])) {
+            $demandeconge->justificatif = $validatedData['justificatif'];
+        }
+
+        $demandeconge->update();
         $id = $demandeconge->user_id;
 
         return redirect()->route('index_created_demandeconge_id', ['id' => $id])

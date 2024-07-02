@@ -81,7 +81,7 @@ class NotificationController extends Controller
             }
         }
 
-        $notifications = $query->paginate(10);
+        $notifications = $query->paginate(8);
         return view('pages.indexs.notification_index', compact('notifications'));
     }
 
@@ -154,7 +154,7 @@ class NotificationController extends Controller
             }
         }
 
-        $notifications = $query->paginate(10);
+        $notifications = $query->paginate(8);
         return view('pages.indexs.notification_index', compact('notifications'));
     }
 

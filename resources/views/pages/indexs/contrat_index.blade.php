@@ -49,10 +49,15 @@
                                         <th class="p-3 whitespace-nowrap">
                                             <div class="font-semibold text-left">Email</div>
                                         </th>
-
-                                        <th class="p-3 whitespace-nowrap">
-                                            <div class="font-semibold text-center">Contrat de travail</div>
-                                        </th>
+                                        @if (request()->routeIs('index_contrat_user.worked_hours'))
+                                            <th class="p-3 whitespace-nowrap">
+                                                <div class="font-semibold text-center">Heures travaillées</div>
+                                            </th>
+                                        @else
+                                            <th class="p-3 whitespace-nowrap">
+                                                <div class="font-semibold text-center">Contrat de travail</div>
+                                            </th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody class="text-base divide-y divide-gray-100">
@@ -82,13 +87,24 @@
 
                                             <td class="p-3 whitespace-nowrap">
                                                 <div class="flex space-x-2 justify-center">
-                                                    <button
-                                                        class="inline-flex items-center px-4 py-2 bg-indigo-500 text-white rounded-md font-semibold text-xs uppercase tracking-widest transition duration-300 hover:bg-indigo-600">
-                                                        <a style="color:white"
-                                                            href="{{ isset($user->lien_contrat) ? route('show_pdf_view', ['lien' => $user->lien_contrat]) : route('generer.contrat', $user) }}">
-                                                            {{ isset($user->lien_contrat) ? 'Visualiser' : 'Générer' }}
-                                                        </a>
-                                                    </button>
+                                                    @if (request()->routeIs('index_contrat_user.worked_hours'))
+                                                        <button
+                                                            class="inline-flex items-center px-4 py-2 bg-indigo-500 text-white rounded-md font-semibold text-xs uppercase tracking-widest transition duration-300 hover:bg-indigo-600">
+                                                            <a style="color:white"
+                                                                href="{{ route('worked_hours.page', $user->id) }}">
+                                                                Evaluer
+                                                            </a>
+                                                        </button>
+                                                    @else
+                                                        <button
+                                                            class="inline-flex items-center px-4 py-2 bg-indigo-500 text-white rounded-md font-semibold text-xs uppercase tracking-widest transition duration-300 hover:bg-indigo-600">
+                                                            <a style="color:white"
+                                                                href="{{ isset($user->lien_contrat) ? route('show_pdf_view', ['lien' => $user->lien_contrat]) : route('generer.contrat', $user) }}">
+                                                                {{ isset($user->lien_contrat) ? 'Visualiser' : 'Générer' }}
+                                                            </a>
+                                                        </button>
+                                                    @endif
+
                                                 </div>
                                             </td>
                                         </tr>

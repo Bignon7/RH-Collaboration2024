@@ -3,11 +3,12 @@
 @endphp --}}
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo text-start" style="width: 100%; display: flex; justify-content: flex-start;">
-        <a href="#" class="app-brand-link inline-block" style="display: flex; align-items: center;">
+        <a href="#" class="app-brand-link inline-block"
+            style="display: flex; align-items: center; margin-left:-20px;">
             <span class="app-brand-logo demo" style="display: flex; align-items: center;">
                 <img src="storage/img/logo_nbg.ico" alt="" style="height:20%; width:20%; ">
                 <span style="text-transform:capitalize;"
-                    class="app-brand-text demo menu-text fw-bolder">StaffNest</span>
+                    class="app-brand-text demo menu-text fw-bolder">RH-Optimize</span>
             </span>
 
         </a>
@@ -87,6 +88,13 @@
                 onclick="if('{{ Auth::user()->lien_contrat }}' === '') { alert('Votre contrat n\'est pas encore prêt.'); return false; }">
                 <i class="menu-icon tf-icons bx bx-book-content"></i>
                 <div data-i18n="Account Settings">Contrat de travail</div>
+            </a>
+
+        </li>
+        <li class="menu-item">
+            <a href="{{ route('planning.show') }}" class="menu-link ">
+                <i class="menu-icon tf-icons bx bx-calendar"></i>
+                <div data-i18n="Account Settings">Planning</div>
             </a>
 
         </li>

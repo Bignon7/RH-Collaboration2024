@@ -4,6 +4,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DemandecongeController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\FichepaieController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\InscriptionController;
@@ -79,7 +80,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(DemandecongeController::class)->group(function () {
         Route::get('/employe.create_demandeconge', 'create')->name('show_demandeconge_form');
-        Route::post('/employe.store_demandecpnge', 'store')->name('store_created_demandeconge');
+        Route::post('/employe.store_demandeconge', 'store')->name('store_created_demandeconge');
 
         Route::get('/manager.index_demandeconge', 'index')->name('index_created_demandeconge');
 
@@ -95,6 +96,7 @@ Route::middleware('auth')->group(function () {
 
         //Route::get('/user.index_user_notification', 'notification_index')->name('user_notification_index');
         Route::get('/manager.index_contrat', 'contrat_index')->name('index_contrat_user');
+        Route::get('/manager.index_contrat.worked_hours', 'contrat_index')->name('index_contrat_user.worked_hours');
         Route::get('/user.index_user', 'index')->name('index_created_user');
         Route::get('/admin.user.index_manager', 'admin_index_manager')->name('admin.index_created_manager');
         Route::get('/admin.user.index_user', 'admin_attendance_index')->name('admin.attendance');
@@ -133,6 +135,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/rechercher', 'search')->name('rechercher');
         Route::post('/get-attendances',  'getAttendances')->name('get-attendances');
     });
+    Route::get('/autofill-clockout', [AttendanceController::class, 'autoFillClockOut'])->name('attendance.autofillClockOut');
+    Route::get('/dashboard/get-worked-hours', [AttendanceController::class, 'getWorkedHours'])->name('dashboard.getWorkedHours');
+    //Route::get('/evaluate{id}.workedhours', [AttendanceController::class, 'getPageOfWorkedHours'])->name('get.workedhours.page');
+
+    Route::get('/user{id}.hours-worked.page', [AttendanceController::class, 'showHoursWorkedTable'])->name('worked_hours.page');
+    Route::get('/user{id}.hours-worked', [AttendanceController::class, 'hoursWorkedForChart'])->name('attendance.hoursWorked');
+
+
 
 
     Route::controller(FichepaieController::class)->group(function () {
@@ -145,6 +155,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/fichepaie.oneuser', 'showOneFicheForm')->name('show_import_fiche_form');
         Route::post('/fichepaie.store.one', 'storeOneUserFiche')->name('store_one_user_fiche');
     });
+
+    Route::controller(EventController::class)->group(function () {
+        Route::get('/planning.events', 'index')->name('planning.show');
+        Route::post('/events', 'store')->name('store.events');
+        Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy');
+    });
+    Route::get('/dossiers-personnel.byEmployee', [DocumentController::class, 'dossier_perso'])->name('dossiers_personnel.byEmployee');
+    Route::get('/dossiers-personnel.byFolder', [DocumentController::class, 'dossier_perso_folder'])->name('dossiers_personnel.byFolder');
+    Route::view('/guide', 'pages.update.guide');
 });
 
 

@@ -156,8 +156,8 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         $request->session()->forget(['step1', 'step2']);
-
-        return to_route('get_dash')->with('success', 'Le nouvel utilisateur a bien été enregistré');
+        return redirect()->route('get_dash')->with('success', 'Le nouvel utilisateur a bien été enregistré');
+        //return to_route('get_dash')->with('success', 'Le nouvel utilisateur a bien été enregistré');
     }
 
 

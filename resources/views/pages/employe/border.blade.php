@@ -93,7 +93,7 @@
                 @endif
                 <!-- / Message de session -->
 
-                <!--  Badge -->
+                {{-- <!--  Badge -->
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div class="row">
                         <div class="col-12 mb-4 order-0">
@@ -101,14 +101,16 @@
                                 <div class="d-flex align-items-end">
                                     <div class="col-sm-6 col-md-9">
                                         <div class="card-body">
-                                            <h5 class="card-title text-primary">Bienvenue {{ Auth::user()->prenom }} !🎉
+                                            <h5 class="card-title text-primary mb-4 text-md">Bienvenue
+                                                {{ Auth::user()->prenom }}
+                                                !🎉
                                             </h5>
                                             <p class="mb-4">
                                                 Heureux de vous revoir
                                             </p>
-
-                                            {{-- <a href="javascript:;" class="btn btn-sm btn-outline-primary">View
-                                                Badges</a> --}}
+                                            <p>Nous sommes le
+                                                {{ \Carbon\Carbon::now()->locale('fr_FR')->isoFormat('dddd D MMMM YYYY') }}
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-3 text-right">
@@ -124,11 +126,58 @@
                         </div>
                     </div>
                 </div>
+                <!-- / Badge --> --}}
+                <!--  Badge -->
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="row  items-center ">
+                        <div class="col-12 col-md-9 mb-2 order-0">
+                            <div class="card">
+                                <div class="d-flex align-items-end">
+                                    <div class="col-sm-6 col-md-9">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary mb-4 text-md">Bienvenue
+                                                {{ Auth::user()->prenom }}
+                                                !🎉
+                                            </h5>
+                                            <p class="mb-4">
+                                                Heureux de vous revoir
+                                            </p>
+                                            <p>Nous sommes le
+                                                {{ \Carbon\Carbon::now()->locale('fr_FR')->isoFormat('dddd D MMMM YYYY') }}
+                                            </p>
+
+                                            {{-- <a href="javascript:;" class="btn btn-sm btn-outline-primary">View
+                                Badges</a> --}}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-3 text-right">
+                                        <div class="card-body pb-0 px-0 px-md-4 sm">
+                                            <img src="assets/img/illustrations/man-with-laptop-light.png"
+                                                style="height: 140px" alt="View Badge User"
+                                                data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                                                data-app-light-img="illustrations/man-with-laptop-light.png" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  Chart -->
+                        <div class="col-12 col-md-3 mb-2 order-0">
+                            <div class="card  text-center">
+                                <h2 class="text-lg font-semibold text-gray-500 px-3 mt-2">Heures Travaillées ce
+                                    mois-ci
+                                </h2>
+                                @include('pages.update.dash_stat')
+                            </div>
+                        </div>
+                        <!--  /Chart -->
+
+                    </div>
+                </div>
                 <!-- / Badge -->
 
-
                 <!-- Profile -->
-                <div class="container mt-5 mb-5">
+                <div class="container mt-3 mb-5">
                     <div class="card profile-card">
                         <div class="card-header text-center mb-5"
                             style="background-color: #696cff;

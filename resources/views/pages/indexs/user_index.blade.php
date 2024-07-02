@@ -55,11 +55,11 @@
                                         <th class="p-3 whitespace-nowrap">
                                             <div class="font-semibold text-left">Adresse</div>
                                         </th>
-                                        @if (!request()->routeIs('admin.index_created_manager'))
-                                            <th class="p-3 whitespace-nowrap">
-                                                <div class="font-semibold text-center">Actions</div>
-                                            </th>
-                                        @endif
+                                        {{-- @if (!request()->routeIs('admin.index_created_manager')) --}}
+                                        <th class="p-3 whitespace-nowrap">
+                                            <div class="font-semibold text-center">Actions</div>
+                                        </th>
+                                        {{-- @endif --}}
                                     </tr>
                                 </thead>
                                 <tbody class="text-base divide-y divide-gray-100">
@@ -103,25 +103,25 @@
                                             <td class="p-3 whitespace-nowrap">
                                                 <div class="text-left">{{ $user->adresse }}</div>
                                             </td>
-                                            @if (!request()->routeIs('admin.index_created_manager'))
-                                                <td class="p-3 whitespace-nowrap">
-                                                    <div class="flex space-x-2 justify-center">
-                                                        <a href="{{ route('show_created_user', ['user' => $user, 'id' => $user->id]) }}"
-                                                            class="text-blue-500 px-1 hover:text-blue-700">
-                                                            <i class="fas fa-eye"></i>
-                                                        </a>
-                                                        <a href="{{ route('edit_created_user', ['user' => $user, 'id' => $user->id]) }}"
-                                                            class="text-yellow-500 px-1 hover:text-yellow-700">
-                                                            <i class="fas fa-edit"></i>
-                                                        </a>
-                                                        <a href="{{ route('delete_created_user', ['user' => $user, 'id' => $user->id]) }}"
-                                                            class="text-red-500 px-1 hover:text-red-700"
-                                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet employé?')">
-                                                            <i class="fas fa-trash"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            @endif
+                                            {{-- @if (!request()->routeIs('admin.index_created_manager')) --}}
+                                            <td class="p-3 whitespace-nowrap">
+                                                <div class="flex space-x-2 justify-center">
+                                                    <a href="{{ route('show_created_user', ['user' => $user, 'id' => $user->id]) }}"
+                                                        class="text-blue-500 px-1 hover:text-blue-700">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('edit_created_user', ['user' => $user, 'id' => $user->id]) }}"
+                                                        class="text-yellow-500 px-1 hover:text-yellow-700">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="{{ route('delete_created_user', ['user' => $user, 'id' => $user->id]) }}"
+                                                        class="text-red-500 px-1 hover:text-red-700"
+                                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet employé?')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            {{-- @endif --}}
                                         </tr>
                                     @endforeach
                                 </tbody>

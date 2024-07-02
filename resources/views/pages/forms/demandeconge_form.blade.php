@@ -93,7 +93,7 @@
     </h1>
     <form
         action="{{ isset($demandeconge) ? route('update_created_demandeconge', $demandeconge->id) : route('store_created_demandeconge') }}"
-        method="POST">
+        method="POST" enctype="multipart/form-data">
         @csrf
         {{-- @if (isset($demandeconge))
             @method('PUT')
@@ -195,10 +195,83 @@
             <x-input-error :messages="$errors->get('motif_conge')" class="mt-2" />
         </div>
 
+        <!-- Justificatif -->
+        <div class="mt-4">
+            @if (isset($demandeconge) && $demandeconge->justificatif)
+                <x-input-label for="justificatif" :value="__('Justificatif')" />
+                <div class="flex items-center space-x-4">
+                    <div class="flex-1 block px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm">
+                        <span id="justificatif-name" class="text-gray-500">
+                            <!-- Afficher le lien vers le justificatif existant avec possibilité de le changer -->
+                            @if (isset($demandeconge) && $demandeconge->justificatif)
+                                <a href="{{ asset('storage/' . $demandeconge->justificatif) }}" target="_blank"
+                                    class="text-indigo-500">
+                                    {{ strlen(basename($demandeconge->justificatif)) > 20 ? substr(basename($demandeconge->justificatif), 0, 20) . '...' : basename($demandeconge->justificatif) }}
+                                </a>
+                            @endif
+                        </span>
+                    </div>
+                    <label for="justificatif"
+                        class="inline-block px-4 py-2 bg-indigo-500 text-white font-semibold rounded-md shadow-sm cursor-pointer hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        @if (isset($demandeconge) && $demandeconge->justificatif)
+                            <input id="justificatif" name="justificatif" type="file" class="file-input"
+                                style="display:none"
+                                onchange="document.getElementById('justificatif-name').textContent = this.files[0].name.slice(0,15)+'...';">
+                            <span>Remplacer</span>
+                        @endif
+                    </label>
+                @else
+                    <label class="block font-semibold text-gray-600">Justificatif (optionnel)</label>
+                    <div class="mt-1">
+                        <label for="justificatif"
+                            class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 cursor-pointer">
+                            <span id="justificatif-name" class="text-gray-500">Sélectionner un fichier</span>
+                            <input id="justificatif" name="justificatif" type="file" class="file-input"
+                                style="display:none"
+                                onchange="document.getElementById('justificatif-name').textContent = this.files[0].name.slice(0,15)+'...';">
+                        </label>
+                    </div>
+            @endif
+            <x-input-error :messages="$errors->get('justificatif')" class="mt-2" />
+        </div>
+        <!-- Justificatif -->
+        {{-- <div class=" mt-4">
+            <x-input-label for="justificatif" :value="__('Importer le CV')" />
+            <div class="flex items-center space-x-4">
+                <div class="flex-1 block px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm">
+                    <span id="justificatif-name" class="text-gray-500">
+                        <!-- Afficher le nom du fichier actuel -->
+                        @if (isset($demandeconge) && $demandeconge->justificatif)
+                            <a href="storage/{{ $demandeconge->justificatif }}" target="_blank"
+                                class="text-indigo-500">
+                                {{ strlen(basename($demandeconge->justificatif)) > 20 ? substr(basename($demandeconge->justificatif), 0, 20) . '...' : basename($demandeconge->justificatif) }}
+                            </a>
+                        @else
+                            Sélectionner
+                        @endif
+                    </span>
+                </div>
+                <label for="justificatif"
+                    class="inline-block px-4 py-2 bg-indigo-500 text-white font-semibold rounded-md shadow-sm cursor-pointer hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <input id="justificatif" name="justificatif" type="file" class="file-input" style="display:none"
+                        onchange="document.getElementById('justificatif-name').textContent = this.files[0].name.slice(0,15)+'...';">
+                    <span>Remplacer</span>
+                </label>
+            </div>
+            <x-input-error :messages="$errors->get('justificatif')" class="mt-2" />
+        </div> --}}
+
+
+
+
+
+
+
+
         <div class="flex items-center justify-end mt-4">
             <button
                 class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest text-gray-500 border border-gray-500 transition  duration-300 hover:bg-gray-500 hover:text-white"><a
-                    href="{{ route('get_dash') }}">Annuler</a></button>
+                    href="{{ route('get_dash') }}">RETOUR</a></button>
             <x-primary-button class="ms-4">
                 {{ isset($demandeconge) ? __('Mettre à jour') : __('Soumettre') }}
             </x-primary-button>

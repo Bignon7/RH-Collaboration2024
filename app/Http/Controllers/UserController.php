@@ -44,7 +44,7 @@ class UserController extends Controller
             });
         }
 
-        $users = $query->paginate(8);
+        $users = $query->paginate(6);
 
         return view('pages.indexs.user_index', compact('users'));
     }
@@ -77,7 +77,7 @@ class UserController extends Controller
             });
         }
 
-        $users = $query->paginate(8);
+        $users = $query->paginate(6);
 
         return view('pages.indexs.attendance_user_index', compact('users'));
     }
@@ -110,7 +110,7 @@ class UserController extends Controller
             });
         }
 
-        $users = $query->paginate(8);
+        $users = $query->paginate(6);
 
         return view('pages.indexs.user_index', compact('users'));
     }
@@ -146,7 +146,7 @@ class UserController extends Controller
             });
         }
 
-        $users = $query->paginate(8);
+        $users = $query->paginate(6);
 
         return view('pages.indexs.contrat_index', compact('users'));
     }
