@@ -20,4 +20,27 @@
     pour créer la table formation var inscription hérite de ses clés
 
 
+14) Le fichier links du dossier pages contient maintenant le style et les dépendances nécessaires pour le style des pages d'index (le bord et le contenu)
+15) Les routes nécessaires pour le crud sur demandeconge, formation et service ont déjà été définis, peut-être on peut penser à les réduire
 
+16)
+
+
+
+
+17) Dans NotificationService, les fonctions sont définies avec static parce qu'on veut pouvoir les appeler en utilisant ClassName::methodName
+18) Un exemple d'utilisation de mailable avec en paramètre un mailable qu'on a au préalable créé
+ Mail::send(new RegisterCredentialsMail($request));
+
+
+19) Pour la traduction: ///Langue encore __ français
+**composer require laravel-lang/common --dev
+php artisan lang:add fr
+Puis on installe le français. Dans le fichier .env :
+
+*APP_LOCALE=fr
+Et on met à jour :
+
+**php artisan lang:update
+
+20)

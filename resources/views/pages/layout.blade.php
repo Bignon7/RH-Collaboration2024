@@ -12,7 +12,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="storage/img/logo_nbg.ico" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

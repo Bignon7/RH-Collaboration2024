@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom_service');
             $table->string('chef_service');
-            $table->integer('effectif_service');
+            $table->integer('effectif_service')->default(0);
             $table->text('detail_service')->nullable();
             $table->timestamps();
         });
